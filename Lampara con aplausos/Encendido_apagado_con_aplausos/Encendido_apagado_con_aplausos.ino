@@ -1,4 +1,4 @@
-int MIC = 2;
+Sint MIC = 2;
 int RELAY = 3;
 int VALOR;
 int ESTADO;
