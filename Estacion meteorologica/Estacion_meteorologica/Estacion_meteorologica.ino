@@ -7,8 +7,9 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-
+ 
 void setup() {
+  
  dht.begin();
  lcd.init();
  lcd.backlight();
@@ -18,6 +19,7 @@ void setup() {
  lcd.print("   Temperatura");
  delay(3000);
  lcd.clear();
+
 }
 
 
@@ -32,7 +34,6 @@ void loop() {
   lcd.print("Temp: ");
   lcd.print(temperatura, 1);
   lcd.print(" C ");
-  
   lcd.setCursor(0, 0);
   lcd.print("Humedad: ");
   lcd.print(humedad, 1);
