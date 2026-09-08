@@ -1,7 +1,4 @@
 const int PIN_STEP = 5, PIN_DIR = 4;
-
-// Pasos según el ángulo (200 pasos = 360°): 0°=0, 45°=25, 90°=50, 180°=100
-int secuencia[] = {0, 25, 50, 100}; 
 int pasoActual = 0;
 
 void setup() {
@@ -10,24 +7,46 @@ void setup() {
 }
 
 void loop() {
-  // Recorre cada posición de la secuencia una por una
-  for (int i = 0; i < 4; i++) {
-    int pasoObjetivo = secuencia[i];
-    int diferencia = pasoObjetivo - pasoActual;
+  // --------------------------------------------------
+  // PARADA 1: 0 Grados (0 pasos)
+  // --------------------------------------------------
+  moverMotor(0);
+  delay(1000); // Espera 1 segundo en 0°
 
-    // Dirección: HIGH para avanzar, LOW para retroceder
-    digitalWrite(PIN_DIR, diferencia > 0 ? HIGH : LOW);
-    if (diferencia < 0) diferencia = -diferencia;
+  // --------------------------------------------------
+  // PARADA 2: 45 Grados (25 pasos)
+  // --------------------------------------------------
+  moverMotor(25);
+  delay(1000); // Espera 1 segundo en 45°
 
-    // Mueve los pasos necesarios
-    for (int p = 0; p < diferencia; p++) {
-      digitalWrite(PIN_STEP, HIGH);
-      delayMicroseconds(2000); // Modificar para cambiar la velocidad
-      digitalWrite(PIN_STEP, LOW);
-      delayMicroseconds(2000);
-    }
+  // --------------------------------------------------
+  // PARADA 3: 90 Grados (50 pasos)
+  // --------------------------------------------------
+  moverMotor(50);
+  delay(1000); // Espera 1 segundo en 90°
 
-    pasoActual = pasoObjetivo;
-    delay(1000); // Pausa de 1 segundo en cada ángulo
+  // --------------------------------------------------
+  // PARADA 4: 180 Grados (100 pasos)
+  // --------------------------------------------------
+  moverMotor(100);
+  delay(1000); // Espera 1 segundo en 180°
+}
+
+// Función auxiliar para mover el motor a la posición en pasos
+void moverMotor(int pasoObjetivo) {
+  int diferencia = pasoObjetivo - pasoActual;
+
+  // Dirección: HIGH para avanzar, LOW para retroceder
+  digitalWrite(PIN_DIR, diferencia > 0 ? HIGH : LOW);
+  if (diferencia < 0) diferencia = -diferencia;
+
+  // Pulsos de movimiento
+  for (int p = 0; p < diferencia; p++) {
+    digitalWrite(PIN_STEP, HIGH);
+    delayMicroseconds(2000);
+    digitalWrite(PIN_STEP, LOW);
+    delayMicroseconds(2000);
   }
+
+  pasoActual = pasoObjetivo; // Guarda la nueva posición actual
 }
